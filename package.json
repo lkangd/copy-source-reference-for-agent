@@ -2,7 +2,7 @@
   "name": "copy-source-reference-for-agent",
   "displayName": "Copy Source Reference for Agent",
   "description": "Copy source paths, line ranges, and Markdown snippets for coding agents.",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "publisher": "curtis-liong",
   "license": "MIT",
   "repository": {
@@ -97,6 +97,12 @@
           "default": "@",
           "scope": "resource",
           "description": "Text to add before each copied path. Set to an empty string to copy paths without a prefix."
+        },
+        "copySourceReferenceForAgent.linePrefix": {
+          "type": "string",
+          "default": "#L",
+          "scope": "resource",
+          "description": "Text between the path and the first line number. Use ':' for the path:line format."
         },
         "copySourceReferenceForAgent.rangeSeparator": {
           "type": "string",

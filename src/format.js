@@ -1,15 +1,15 @@
 "use strict";
 
-function formatReference(filePath, selection, prefix, rangeSeparator) {
-  const reference = `${prefix}${filePath}`;
+function formatReference(filePath, selection, { prefix, linePrefix, rangeSeparator }) {
   const { start, end } = selection;
   const firstLine = start.line + 1;
   // The end is exclusive. Column zero leaves that line outside the selection.
   const lastLine = end.line > start.line && end.character === 0 ? end.line : end.line + 1;
+  const reference = `${prefix}${filePath}${linePrefix}${firstLine}`;
   if (firstLine === lastLine) {
-    return `${reference}:${firstLine}`;
+    return reference;
   }
-  return `${reference}:${firstLine}${rangeSeparator}${lastLine}`;
+  return `${reference}${rangeSeparator}${lastLine}`;
 }
 
 function formatMarkdown(reference, code, languageId) {

@@ -87,10 +87,12 @@ function activate(context) {
 
     const config = vscode.workspace.getConfiguration(SECTION, uri);
     const legacyConfig = vscode.workspace.getConfiguration(LEGACY_SECTION, uri);
-    const prefix = readSetting(config, legacyConfig, "prefix", "@");
-    const rangeSeparator = readSetting(config, legacyConfig, "rangeSeparator", "-");
     const filePath = path.normalize(absolute ? uri.fsPath : vscode.workspace.asRelativePath(uri));
-    const reference = formatReference(filePath, selection, prefix, rangeSeparator);
+    const reference = formatReference(filePath, selection, {
+      prefix: readSetting(config, legacyConfig, "prefix", "@"),
+      linePrefix: config.get("linePrefix", "#L"),
+      rangeSeparator: readSetting(config, legacyConfig, "rangeSeparator", "-"),
+    });
     const snapshot = { editor, selection, version: document.version, reference };
 
     try {
