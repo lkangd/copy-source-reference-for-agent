@@ -1,0 +1,110 @@
+{
+  "name": "copy-source-reference-for-agent",
+  "displayName": "Copy Source Reference for Agent",
+  "description": "Copy source paths, line ranges, and Markdown snippets for coding agents.",
+  "version": "0.1.5",
+  "publisher": "curtis-liong",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lkangd/copy-source-reference-for-agent.git"
+  },
+  "icon": "assets/icon-v2.png",
+  "private": true,
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "keywords": ["clipboard", "file path", "line numbers", "markdown", "coding agent"],
+  "main": "./src/extension.js",
+  "extensionKind": ["workspace"],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
+  "files": ["src/**", "README.md", "LICENSE", "assets/icon-v2.png"],
+  "scripts": {
+    "test": "node --test",
+    "package": "npx --yes @vscode/vsce@4.1.0 package --no-dependencies"
+  },
+  "activationEvents": [
+    "onCommand:copyPathForAgent.copyRelative",
+    "onCommand:copyPathForAgent.copyAbsolute",
+    "onCommand:copyPathForAgent.copyMarkdown"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "copySourceReferenceForAgent.copyRelative",
+        "title": "Copy Relative Path",
+        "category": "Copy Source Reference for Agent"
+      },
+      {
+        "command": "copySourceReferenceForAgent.copyAbsolute",
+        "title": "Copy Absolute Path",
+        "category": "Copy Source Reference for Agent"
+      },
+      {
+        "command": "copySourceReferenceForAgent.copyMarkdown",
+        "title": "Add Markdown Snippet",
+        "category": "Copy Source Reference for Agent",
+        "enablement": "copySourceReferenceForAgent.markdownPending"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "copySourceReferenceForAgent.copyRelative",
+        "key": "alt+o",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "copySourceReferenceForAgent.copyAbsolute",
+        "key": "alt+shift+o",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "copySourceReferenceForAgent.copyMarkdown",
+        "key": "m",
+        "when": "editorTextFocus && copySourceReferenceForAgent.markdownPending"
+      },
+      {
+        "command": "copySourceReferenceForAgent.copyMarkdown",
+        "key": "alt+m",
+        "mac": "alt+[KeyM]",
+        "when": "editorTextFocus && copySourceReferenceForAgent.markdownPending"
+      },
+      {
+        "command": "copySourceReferenceForAgent.copyMarkdown",
+        "key": "alt+shift+m",
+        "mac": "alt+shift+[KeyM]",
+        "when": "editorTextFocus && copySourceReferenceForAgent.markdownPending"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "copySourceReferenceForAgent.copyMarkdown",
+          "when": "copySourceReferenceForAgent.markdownPending"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Copy Source Reference for Agent",
+      "properties": {
+        "copySourceReferenceForAgent.prefix": {
+          "type": "string",
+          "default": "@",
+          "scope": "resource",
+          "description": "Text to add before each copied path. Set to an empty string to copy paths without a prefix."
+        },
+        "copySourceReferenceForAgent.rangeSeparator": {
+          "type": "string",
+          "default": "-",
+          "scope": "resource",
+          "description": "Text to place between the first and last line numbers of a multi-line selection."
+        }
+      }
+    }
+  }
+}
